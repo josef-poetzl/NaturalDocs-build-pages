@@ -1,0 +1,29 @@
+name: 'Lint VBA'
+description: 'Lint VBA source code.'
+branding:
+  icon: "book-open"
+  color: "white"
+inputs:
+  config:
+    description: 'Path to config file.'
+    default: ".nd_project.txt"
+  version:
+    description: 'NaturalDocs version to install.'
+    default: "2.3"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        sudo apt-get install -qq mono-complete
+        wget -q https://www.naturaldocs.org/download/natural_docs/${{ inputs.version }}/Natural_Docs_${{ inputs.version }}.zip -O /tmp/ND.zip
+        unzip /tmp/ND.zip -d /tmp
+      shell: bash
+    - run: |
+        mkdir ${{ github.workspace }}/docs
+        mkdir ${{ github.workspace }}/.ND_Config
+        cp ${{ github.workspace }}/.nd_project.txt ${{ github.workspace }}/.ND_Config/Project.txt
+      shell: bash
+    - run: |
+        mono /tmp/Natural\ Docs/NaturalDocs.exe ${{ github.workspace }}/.ND_Config
+      shell: bash
+      
