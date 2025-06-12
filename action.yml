@@ -21,7 +21,7 @@ runs:
     - run: |
         mkdir ${{ github.workspace }}/docs
         mkdir ${{ github.workspace }}/.ND_Config
-        cp ${{ github.workspace }}/.nd_project.txt ${{ github.workspace }}/.ND_Config/Project.txt
+        cp ${{ github.workspace }}/${{ inputs.config }} ${{ github.workspace }}/.ND_Config/Project.txt
       shell: bash
     - run: |
         mono /tmp/Natural\ Docs/NaturalDocs.exe ${{ github.workspace }}/.ND_Config
